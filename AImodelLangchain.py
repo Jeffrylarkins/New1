@@ -31,15 +31,15 @@ def cust():
     #inputs from boomi - Question
     questions = request.form['Ques']
     # Create a BlobServiceClient and download the CSV
-    blob_service_client = BlobServiceClient(account_url=f"https://{storage_account_name}.blob.core.windows.net", credential=storage_account_key)
-    blob_client = blob_service_client.get_blob_client(container=container_name, blob=blob_name)
-    stream = BytesIO(blob_client.download_blob().readall())
+    # blob_service_client = BlobServiceClient(account_url=f"https://{storage_account_name}.blob.core.windows.net", credential=storage_account_key)
+    # blob_client = blob_service_client.get_blob_client(container=container_name, blob=blob_name)
+    # stream = BytesIO(blob_client.download_blob().readall())
    
     # Read the CSV file from the blob into a Pandas DataFrame
-    df = pd.read_csv(stream)
+    df = pd.read_csv(blob_name)
    
     #Convert the DataFrame to CSV format (in memory)
-    csv_data = df.to_csv(index=False)
+    csv_data = df#.to_csv(index=False)
    
     # Create the language model with OpenAI
     llm = ChatOpenAI(temperature=0.5)
@@ -54,4 +54,4 @@ def cust():
  
 if __name__ == '__main__':
  # print(f'Public URL is : {public_url}')
-  app.run(port=8090,host=0.0.0.0)
+  app.run(port=8090,host="0.0.0.0")
